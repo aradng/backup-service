@@ -1,0 +1,91 @@
+definitions:
+  docker.Container:
+    properties:
+      db:
+        type: boolean
+      dir:
+        type: string
+      id:
+        type: string
+      image:
+        type: string
+      names:
+        items:
+          type: string
+        type: array
+      password:
+        type: string
+      project:
+        type: string
+      state:
+        type: string
+      status:
+        type: string
+      type:
+        $ref: '#/definitions/model.DatabaseType'
+      userName:
+        type: string
+      volumes:
+        items:
+          type: string
+        type: array
+    type: object
+  model.DatabaseType:
+    enum:
+    - 0
+    - 1
+    type: integer
+    x-enum-varnames:
+    - MongoDB
+    - MySQLDB
+info:
+  contact: {}
+paths:
+  /backup/:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: asd
+        in: body
+        name: request
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+          schema:
+            items:
+              type: string
+            type: array
+      summary: backup dbs
+      tags:
+      - Backup
+  /backup/containers:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Filter to only show databases
+        in: query
+        name: is_db
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/docker.Container'
+            type: array
+      summary: get containers
+      tags:
+      - Container
+swagger: "2.0"
